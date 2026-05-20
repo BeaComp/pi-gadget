@@ -1,0 +1,9 @@
+#!/bin/sh
+set -x
+exec >> /var/snap/pi/common/prepare-device.log 2>&1
+
+snapctl set device-service.url="http://XXXXXXX:XXXX/"
+snapctl set device-service.headers='XXXXX'
+
+SERIAL=$(grep Serial /proc/cpuinfo | awk '{print $3}')
+snapctl set registration.proposed-serial="\"${SERIAL}\""
