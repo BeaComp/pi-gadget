@@ -44,17 +44,6 @@ volumes:
         # XXX: make auto-grow to partition
         size: 1500M
 
-defaults:
-  system:
-    system:
-      network:
-        netplan:
-          network:
-            version: 2
-            wifis:
-              wlan0:
-                access-points:
-                  "YOUR_WIFI_SSID": 
-                    password: "PASSWORD_FOR_YOUR_WIFI"
-                dhcp4: true
-                wakeonlan: true
+connections:
+  - plug: ULgJRti1NTR1znGH6HI277dR1MoTBTSh:gadget-meshagent-bin
+    slot: pi:meshagent-bin

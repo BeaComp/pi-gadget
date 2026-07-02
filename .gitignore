@@ -3,3 +3,8 @@ prime/
 stage/
 pi_*.snap
 *.swp
+
+# MeshCentral agent binary (platform-specific, not tracked in git)
+# Download from your MeshCentral server before building:
+#   Settings → My Account → Mesh Agents → Linux ARM-64 Executable
+gadget-source/meshagent-bin/meshagent

@@ -60,6 +60,14 @@ parts:
       # piboot.conf lets snapd identify piboot as the bootloader on boot
       install -m 644 /dev/null ${CRAFT_PART_INSTALL}/piboot.conf
 
+  meshagent-bin:
+    source: gadget-source/meshagent-bin/
+    plugin: dump
+    organize:
+      meshagent: meshagent-bin/meshagent
+    stage:
+      - meshagent-bin/meshagent
+
 slots:
   bcm-gpio-512:
     interface: gpio
@@ -267,3 +275,9 @@ slots:
     interface: pwm
     chip-number: 0
     channel: 1
+
+  meshagent-bin:
+    interface: content
+    content: meshagent-bin
+    read:
+      - $SNAP/meshagent-bin
