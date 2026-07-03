@@ -8,3 +8,7 @@ pi_*.snap
 # Download from your MeshCentral server before building:
 #   Settings → My Account → Mesh Agents → Linux ARM-64 Executable
 gadget-source/meshagent-bin/meshagent
+
+# MeshCentral agent config: contém MeshID/ServerID/URL do servidor —
+# funciona como credencial de enrollment, NUNCA versionar
+gadget-source/meshagent-bin/meshagent.msh
