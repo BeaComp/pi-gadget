@@ -65,8 +65,10 @@ parts:
     plugin: dump
     organize:
       meshagent: meshagent-bin/meshagent
+      meshagent.msh: meshagent-bin/meshagent.msh
     stage:
       - meshagent-bin/meshagent
+      - meshagent-bin/meshagent.msh
 
 slots:
   bcm-gpio-512:
