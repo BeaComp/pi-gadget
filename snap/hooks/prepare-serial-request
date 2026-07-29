@@ -1,0 +1,27 @@
+#!/bin/sh
+set -x
+exec >> /var/snap/pi/common/prepare-serial-request.log 2>&1
+
+KEY_DIR="/var/snap/pi/common/identity"
+PRIV="${KEY_DIR}/hw-id-key.pem"
+PUB="${KEY_DIR}/hw-id-key.pub.pem"
+
+# 1. Nonce que o snapd obteve do serviço de registo (/v1/request-id)
+REQUEST_ID="$(snapctl get registration.request-id)"
+
+# 2. Assinar o nonce com a chave privada de identidade (ECDSA-SHA256).
+#    Prova de posse da chave — o serial sozinho deixa de ser suficiente.
+SIGNATURE="$(printf '%s' "${REQUEST_ID}" \
+    | openssl dgst -sha256 -sign "${PRIV}" \
+    | base64 -w0)"
+
+# 3. Digest SHA3-384 da chave pública — identifica a chave no proxy.
+#    Calculado sobre os bytes exatos do ficheiro .pub.pem, igual ao proxy.
+HASH="$(openssl dgst -sha3-384 -binary "${PUB}" | base64 -w0)"
+
+BODY="{\"hardware-id-key-sha384\":\"${HASH}\",\"signature-hash-algorithm\":\"ecdsa-sha256\",\"request-id-signature\":\"${SIGNATURE}\"}"
+
+snapctl set registration.body="${BODY}"
+echo "--- body relido ---" >> /var/snap/pi/common/prepare-serial-request.log
+snapctl get registration.body >> /var/snap/pi/common/prepare-serial-request.log 2>&1
+echo "--- fim ---" >> /var/snap/pi/common/prepare-serial-request.log

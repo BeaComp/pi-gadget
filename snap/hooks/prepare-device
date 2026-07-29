@@ -1,0 +1,26 @@
+#!/bin/sh
+set -x
+exec >> /var/snap/pi/common/prepare-device.log 2>&1
+
+snapctl set device-service.url="http://IP_Proxy:8082/v1/"
+snapctl set device-service.headers='{"api-key": "U2VyaWFsIFZhdWx0Cg"}'
+
+# ── NOVO: gerar par de chaves de identidade (idempotente) ──────────────
+KEY_DIR="/var/snap/pi/common/identity"
+PRIV="${KEY_DIR}/hw-id-key.pem"
+PUB="${KEY_DIR}/hw-id-key.pub.pem"
+
+mkdir -p "${KEY_DIR}"
+chmod 700 "${KEY_DIR}"
+
+if [ ! -f "${PRIV}" ]; then
+    openssl genpkey -algorithm EC \
+        -pkeyopt ec_paramgen_curve:P-256 \
+        -out "${PRIV}"
+    chmod 600 "${PRIV}"
+    openssl pkey -in "${PRIV}" -pubout -out "${PUB}"
+fi
+# ─────────────────────────────────────────────────────────────────────
+
+SERIAL=$(grep Serial /proc/cpuinfo | awk '{print $3}')
+snapctl set registration.proposed-serial="\"RPi5-${SERIAL}\""
