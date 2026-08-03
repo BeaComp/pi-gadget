@@ -47,3 +47,16 @@ volumes:
 connections:
   - plug: ULgJRti1NTR1znGH6HI277dR1MoTBTSh:gadget-meshagent-bin
     slot: pi:meshagent-bin
+  - plug: ULgJRti1NTR1znGH6HI277dR1MoTBTSh:snapd-control
+    slot: snapd:snapd-control
+  - plug: ULgJRti1NTR1znGH6HI277dR1MoTBTSh:network
+    slot: snapd:network
+  - plug: 92tFhUJVH40UBBTVivLwrlOhQfPDo2Le:device-identity
+    slot: pi:device-identity
+  - plug: 92tFhUJVH40UBBTVivLwrlOhQfPDo2Le:network
+    slot: snapd:network
+
+defaults:
+  92tFhUJVH40UBBTVivLwrlOhQfPDo2Le:
+    proxy-url: "http://SEU_SERVIDOR:8082"
+    send-interval: 10

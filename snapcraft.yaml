@@ -283,3 +283,9 @@ slots:
     content: meshagent-bin
     read:
       - $SNAP/meshagent-bin
+
+  device-identity:
+    interface: content
+    content: device-identity
+    read:
+      - $SNAP_COMMON/identity

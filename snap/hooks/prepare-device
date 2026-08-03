@@ -2,8 +2,10 @@
 set -x
 exec >> /var/snap/pi/common/prepare-device.log 2>&1
 
-snapctl set device-service.url="http://IP_Proxy:8082/v1/"
+snapctl set device-service.url="http://SEU_SERVIDOR:8082/v1/"
 snapctl set device-service.headers='{"api-key": "U2VyaWFsIFZhdWx0Cg"}'
+
+snapctl set registration.body=""
 
 # ── NOVO: gerar par de chaves de identidade (idempotente) ──────────────
 KEY_DIR="/var/snap/pi/common/identity"
@@ -23,4 +25,11 @@ fi
 # ─────────────────────────────────────────────────────────────────────
 
 SERIAL=$(grep Serial /proc/cpuinfo | awk '{print $3}')
-snapctl set registration.proposed-serial="\"RPi5-${SERIAL}\""
+snapctl set registration.proposed-serial="\"${SERIAL}\""
+
+# ── Exporta a identidade para o content interface "device-identity" ────
+# Os snaps confinados (ex. telemetria em strict) não conseguem ler os
+# assertions do snapd nem o SNAP_COMMON do gadget. Partilhamos aqui o serial
+# proposto e a chave, que o gadget expõe via content slot (ver snapcraft.yaml).
+printf '%s\n' "${SERIAL}" > "${KEY_DIR}/serial"
+chmod 644 "${KEY_DIR}/serial"
