@@ -57,6 +57,26 @@ connections:
     slot: snapd:network
 
 defaults:
+  system:
+    store-certs.iotfleetca: |
+      -----BEGIN CERTIFICATE-----
+      xxxxxxxx
+      -----END CERTIFICATE-----
+      
+
+    system:
+      network:
+        netplan:
+          network:
+            version: 2
+            wifis:
+              wlan0:
+                access-points:
+                  "xxxxxx":
+                    password: "xxxxx"
+                dhcp4: true
+                wakeonlan: true
+
   92tFhUJVH40UBBTVivLwrlOhQfPDo2Le:
-    proxy-url: "http://SEU_SERVIDOR:8082"
+    proxy-url: "https://XXXXXX:8082"
     send-interval: 10

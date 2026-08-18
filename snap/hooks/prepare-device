@@ -2,8 +2,8 @@
 set -x
 exec >> /var/snap/pi/common/prepare-device.log 2>&1
 
-snapctl set device-service.url="http://SEU_SERVIDOR:8082/v1/"
-snapctl set device-service.headers='{"api-key": "U2VyaWFsIFZhdWx0Cg"}'
+snapctl set device-service.url="https://XXXXXX:8082/v1/"
+snapctl set device-service.headers='{"api-key": "xxxxxx"}'
 
 snapctl set registration.body=""
 
